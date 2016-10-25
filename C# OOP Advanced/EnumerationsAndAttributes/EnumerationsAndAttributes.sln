@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardSuit", "CardSuit\CardSuit.csproj", "{1A9FF8FE-3371-4019-A638-730639D2C40A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardRank", "CardRank\CardRank.csproj", "{89C5D530-F997-4777-B861-F2F505856C22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardPower", "CardPower\CardPower.csproj", "{C0809DA6-D4C9-46AB-8634-BDE8715D1E93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardCompareTo", "CardCompareTo\CardCompareTo.csproj", "{C7CF985A-557B-40E6-993D-AC3E1D44BB9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomEnumAttribute", "CustomEnumAttribute\CustomEnumAttribute.csproj", "{28720EA4-594F-4048-8D61-6A15D11B6CFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeckOfCards", "DeckOfCards\DeckOfCards.csproj", "{F37AA92A-6783-4DDD-A8DB-DFDD8550C742}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficLights", "TrafficLights\TrafficLights.csproj", "{A4C581F0-7CA9-4978-B2BD-B261D514A084}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A9FF8FE-3371-4019-A638-730639D2C40A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A9FF8FE-3371-4019-A638-730639D2C40A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A9FF8FE-3371-4019-A638-730639D2C40A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A9FF8FE-3371-4019-A638-730639D2C40A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89C5D530-F997-4777-B861-F2F505856C22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89C5D530-F997-4777-B861-F2F505856C22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89C5D530-F997-4777-B861-F2F505856C22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89C5D530-F997-4777-B861-F2F505856C22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0809DA6-D4C9-46AB-8634-BDE8715D1E93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0809DA6-D4C9-46AB-8634-BDE8715D1E93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0809DA6-D4C9-46AB-8634-BDE8715D1E93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0809DA6-D4C9-46AB-8634-BDE8715D1E93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7CF985A-557B-40E6-993D-AC3E1D44BB9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7CF985A-557B-40E6-993D-AC3E1D44BB9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7CF985A-557B-40E6-993D-AC3E1D44BB9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7CF985A-557B-40E6-993D-AC3E1D44BB9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28720EA4-594F-4048-8D61-6A15D11B6CFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28720EA4-594F-4048-8D61-6A15D11B6CFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28720EA4-594F-4048-8D61-6A15D11B6CFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28720EA4-594F-4048-8D61-6A15D11B6CFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F37AA92A-6783-4DDD-A8DB-DFDD8550C742}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F37AA92A-6783-4DDD-A8DB-DFDD8550C742}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F37AA92A-6783-4DDD-A8DB-DFDD8550C742}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F37AA92A-6783-4DDD-A8DB-DFDD8550C742}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4C581F0-7CA9-4978-B2BD-B261D514A084}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4C581F0-7CA9-4978-B2BD-B261D514A084}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4C581F0-7CA9-4978-B2BD-B261D514A084}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4C581F0-7CA9-4978-B2BD-B261D514A084}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
