@@ -6,7 +6,7 @@ namespace Executor
 {
     public static class SessionData
     {
-        public static string currentPath = Directory.GetCurrentDirectory();
-        public static HashSet<Task> taskPool = new HashSet<Task>();
+        public static string CurrentPath = Directory.GetCurrentDirectory();
+        public static HashSet<Task> TaskPool = new HashSet<Task>();
     }
 }

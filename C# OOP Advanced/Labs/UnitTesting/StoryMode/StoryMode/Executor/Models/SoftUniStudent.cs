@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Odbc;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Executor.Exceptions;
 using Executor.Contracts;
+using Executor.Exceptions;
 
 namespace Executor.Models
 {
-    public class SoftUniStudent : Student
+    public class SoftUniStudent : IStudent
     {
         private string userName;
         private Dictionary<string, ICourse> enrolledCourses;
         private Dictionary<string, double> marksByCourseName;
+
+        public SoftUniStudent(string userName)
+        {
+            this.UserName = userName;
+            this.enrolledCourses = new Dictionary<string, ICourse>();
+            this.marksByCourseName = new Dictionary<string, double>();
+        }
 
         public string UserName
         {
@@ -49,13 +53,6 @@ namespace Executor.Models
             }
         }
 
-        public SoftUniStudent(string userName)
-        {
-            this.UserName = userName;
-            this.enrolledCourses = new Dictionary<string, ICourse>();
-            this.marksByCourseName = new Dictionary<string, double>();
-        }
-
         public void EnrollInCourse(ICourse course)
         {
             if (this.EnrolledCourses.ContainsKey(course.Name))
@@ -86,21 +83,21 @@ namespace Executor.Models
             return string.Format($"{this.userName} - {this.MarksByCourseName[courseName]}");
         }
 
-        private double CalculateMark(int[] scores)
+        public int CompareTo(IStudent other)
         {
-            double percentageOfSolvedExam = scores.Sum() / (double)(SoftUniCourse.NumberOfTasksOnExam * SoftUniCourse.MaxScoreOnExamTask);
-            double mark = percentageOfSolvedExam * 4 + 2;
-            return mark;
-        }
-
-        public int CompareTo(Student other)
-        {
-            return String.Compare(this.UserName, other.UserName, StringComparison.Ordinal);
+            return string.Compare(this.UserName, other.UserName, StringComparison.Ordinal);
         }
 
         public override string ToString()
         {
             return this.UserName;
+        }
+
+        private double CalculateMark(int[] scores)
+        {
+            double percentageOfSolvedExam = scores.Sum() / (double)(SoftUniCourse.NumberOfTasksOnExam * SoftUniCourse.MaxScoreOnExamTask);
+            double mark = (percentageOfSolvedExam * 4) + 2;
+            return mark;
         }
     }
 }

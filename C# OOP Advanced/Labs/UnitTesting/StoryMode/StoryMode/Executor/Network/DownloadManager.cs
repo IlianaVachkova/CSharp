@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
+using Executor.Contracts;
 using Executor.Exceptions;
 using Executor.IO;
-using Executor.Contracts;
 
 namespace Executor.Network
 {
@@ -22,7 +22,7 @@ namespace Executor.Network
                 OutputWriter.WriteMessageOnNewLine("Started downloading: ");
 
                 string nameOfFile = this.ExtractNameOfFile(fileURL);
-                string pathToDownload = SessionData.currentPath + "/" + nameOfFile;
+                string pathToDownload = SessionData.CurrentPath + "/" + nameOfFile;
 
                 this.webClient.DownloadFile(fileURL, pathToDownload);
 
@@ -32,13 +32,12 @@ namespace Executor.Network
             {
                 throw new InvalidPathException();
             }
-
         }
 
         public void DownloadAsync(string fileURL)
         {
             Task currentTask = Task.Run(() => this.Download(fileURL));
-            SessionData.taskPool.Add(currentTask);
+            SessionData.TaskPool.Add(currentTask);
         }
 
         private string ExtractNameOfFile(string fileURL)

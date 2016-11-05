@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Executor.Attributes;
 using Executor.Contracts;
 using Executor.Exceptions;
-using Executor.Attributes;
 
 namespace Executor.IO.Commands
 {
@@ -33,8 +30,8 @@ namespace Executor.IO.Commands
             string sortType = data[2];
             if (entityToDisplay.Equals("students", StringComparison.OrdinalIgnoreCase))
             {
-                IComparer<Student> studentComparator = this.CreateStudentComparator(sortType);
-                ISimpleOrderedBag<Student> list = this.repository.GetAllStudentsSorted(studentComparator);
+                IComparer<IStudent> studentComparator = this.CreateStudentComparator(sortType);
+                ISimpleOrderedBag<IStudent> list = this.repository.GetAllStudentsSorted(studentComparator);
                 OutputWriter.WriteMessageOnNewLine(list.JoinWith(Environment.NewLine));
             }
             else if (entityToDisplay.Equals("courses", StringComparison.OrdinalIgnoreCase))
@@ -45,15 +42,15 @@ namespace Executor.IO.Commands
             }
         }
 
-        private IComparer<Student> CreateStudentComparator(string sortType)
+        private IComparer<IStudent> CreateStudentComparator(string sortType)
         {
             if (sortType.Equals("ascending", StringComparison.OrdinalIgnoreCase))
             {
-                return Comparer<Student>.Create((student, student1) => student.CompareTo(student1));
+                return Comparer<IStudent>.Create((student, student1) => student.CompareTo(student1));
             }
             else if (sortType.Equals("descending", StringComparison.OrdinalIgnoreCase))
             {
-                return Comparer<Student>.Create((student, student1) => student1.CompareTo(student));
+                return Comparer<IStudent>.Create((student, student1) => student1.CompareTo(student));
             }
             else
             {

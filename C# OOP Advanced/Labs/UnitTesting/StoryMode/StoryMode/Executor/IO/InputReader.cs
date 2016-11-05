@@ -1,13 +1,13 @@
-﻿using Executor.Contracts;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Executor.Contracts;
 
 namespace Executor.IO
 {
     public class InputReader : IReader
     {
-        private const string endCommand = "quit";
+        private const string EndCommand = "quit";
 
         private IInterpreter interpreter;
 
@@ -18,21 +18,21 @@ namespace Executor.IO
 
         public void StartReadingCommands()
         {
-            OutputWriter.WriteMessage($"{SessionData.currentPath}> ");
+            OutputWriter.WriteMessage($"{SessionData.CurrentPath}> ");
             string input = Console.ReadLine();
             input = input.Trim();
 
-            while (input != endCommand)
+            while (input != EndCommand)
             {
                 this.interpreter.InterpredCommand(input);
-                OutputWriter.WriteMessage($"{SessionData.currentPath}> ");
+                OutputWriter.WriteMessage($"{SessionData.CurrentPath}> ");
                 input = Console.ReadLine();
                 input = input.Trim();
             }
 
-            if (SessionData.taskPool.Count != 0)
+            if (SessionData.TaskPool.Count != 0)
             {
-                Task.WaitAll(SessionData.taskPool.ToArray());
+                Task.WaitAll(SessionData.TaskPool.ToArray());
             }
         }
     }

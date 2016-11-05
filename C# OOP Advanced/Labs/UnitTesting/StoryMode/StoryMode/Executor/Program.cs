@@ -1,8 +1,8 @@
-﻿using Executor.Network;
+﻿using Executor.Contracts;
 using Executor.IO;
 using Executor.Judge;
+using Executor.Network;
 using Executor.Repository;
-using Executor.Contracts;
 
 namespace Executor
 {

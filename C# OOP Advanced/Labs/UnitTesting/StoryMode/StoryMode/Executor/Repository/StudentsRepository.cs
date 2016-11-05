@@ -3,23 +3,29 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Executor.Exceptions;
-using Executor.Models;
-using Executor.IO;
 using Executor.Contracts;
 using Executor.DataStructures;
+using Executor.Exceptions;
+using Executor.IO;
+using Executor.Models;
 
 namespace Executor.Repository
 {
     public class StudentsRepository : IDatabase
     {
         private Dictionary<string, ICourse> courses;
-        private Dictionary<string, Student> students;
+        private Dictionary<string, IStudent> students;
 
         private bool isDataInitialized;
 
         private IDataFilter filter;
         private IDataSorter sorter;
+
+        public StudentsRepository(IDataSorter sorter, IDataFilter filter)
+        {
+            this.filter = filter;
+            this.sorter = sorter;
+        }
 
         public IReadOnlyDictionary<string, ICourse> Courses
         {
@@ -29,7 +35,7 @@ namespace Executor.Repository
             }
         }
 
-        public IReadOnlyDictionary<string, Student> Students
+        public IReadOnlyDictionary<string, IStudent> Students
         {
             get
             {
@@ -45,12 +51,6 @@ namespace Executor.Repository
             }
         }
 
-        public StudentsRepository(IDataSorter sorter, IDataFilter filter)
-        {
-            this.filter = filter;
-            this.sorter = sorter;
-        }
-
         public void LoadData(string fileName)
         {
             if (this.IsDataInitialized)
@@ -58,7 +58,7 @@ namespace Executor.Repository
                 throw new ArgumentException(ExceptionMessages.DataAlreadyInitializedException);
             }
 
-            this.students = new Dictionary<string, Student>();
+            this.students = new Dictionary<string, IStudent>();
             this.courses = new Dictionary<string, ICourse>();
             this.ReadData(fileName);
         }
@@ -73,77 +73,6 @@ namespace Executor.Repository
             this.sorter = null;
             this.courses = null;
             this.isDataInitialized = false;
-        }
-
-        private void ReadData(string fileName)
-        {
-            string path = SessionData.currentPath + "\\" + fileName;
-            if (File.Exists(path))
-            {
-                OutputWriter.WriteMessageOnNewLine("Reading data...");
-
-                string pattern = @"([A-Z][a-zA-Z#\++]*_[A-Z][a-z]{2}_\d{4})\s+([A-Za-z]+\d{2}_\d{2,4})\s([\s0-9]+)";
-                Regex rgx = new Regex(pattern);
-                string[] allInputLines = File.ReadAllLines(path);
-
-                for (int line = 0; line < allInputLines.Length; line++)
-                {
-                    if (!string.IsNullOrEmpty(allInputLines[line]) && rgx.IsMatch(allInputLines[line]))
-                    {
-                        Match currentMatch = rgx.Match(allInputLines[line]);
-                        string courseName = currentMatch.Groups[1].Value;
-                        string username = currentMatch.Groups[2].Value;
-                        string scoresStr = currentMatch.Groups[3].Value;
-                        try
-                        {
-                            int[] scores = scoresStr.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                                .Select(int.Parse)
-                                .ToArray();
-
-                            if (scores.Any(x => x > 100 || x < 0))
-                            {
-                                OutputWriter.DisplayException(ExceptionMessages.InvalidScore);
-                                continue;
-                            }
-
-                            if (scores.Length > SoftUniCourse.NumberOfTasksOnExam)
-                            {
-                                OutputWriter.DisplayException(ExceptionMessages.InvalidNumberOfScores);
-                                continue;
-                            }
-
-                            if (!this.Students.ContainsKey(username))
-                            {
-                                this.students.Add(username, new SoftUniStudent(username));
-                            }
-
-                            if (!this.Courses.ContainsKey(courseName))
-                            {
-                                this.courses.Add(courseName, new SoftUniCourse(courseName));
-                            }
-
-                            ICourse course = this.Courses[courseName];
-                            Student student = this.Students[username];
-
-                            student.EnrollInCourse(course);
-                            student.SetMarkOnCourse(courseName, scores);
-
-                            course.EnrollStudent(student);
-                        }
-                        catch (Exception ex)
-                        {
-                            OutputWriter.DisplayException(ex.Message + $"at line : {line}");
-                        }
-                    }
-                }
-
-                this.isDataInitialized = true;
-                OutputWriter.WriteMessageOnNewLine("Data read!");
-            }
-            else
-            {
-                throw new InvalidPathException();
-            }
         }
 
         public void GetStudentScoresFromCourse(string courseName, string username)
@@ -199,6 +128,22 @@ namespace Executor.Repository
             }
         }
 
+        public ISimpleOrderedBag<ICourse> GetAllCoursesSorted(IComparer<ICourse> cmp)
+        {
+            SimpleSortedList<ICourse> sortedCourses = new SimpleSortedList<ICourse>(cmp);
+            sortedCourses.AddAll(this.courses.Values);
+
+            return sortedCourses;
+        }
+
+        public ISimpleOrderedBag<IStudent> GetAllStudentsSorted(IComparer<IStudent> cmp)
+        {
+            SimpleSortedList<IStudent> sortedStudents = new SimpleSortedList<IStudent>(cmp);
+            sortedStudents.AddAll(this.students.Values);
+
+            return sortedStudents;
+        }
+
         private bool IsQueryForCoursePossible(string courseName)
         {
             if (!this.IsDataInitialized)
@@ -224,21 +169,75 @@ namespace Executor.Repository
             return true;
         }
 
-        public ISimpleOrderedBag<ICourse> GetAllCoursesSorted(IComparer<ICourse> cmp)
+        private void ReadData(string fileName)
         {
-            SimpleSortedList<ICourse> sortedCourses = new SimpleSortedList<ICourse>(cmp);
-            sortedCourses.AddAll(courses.Values);
+            string path = SessionData.CurrentPath + "\\" + fileName;
+            if (File.Exists(path))
+            {
+                OutputWriter.WriteMessageOnNewLine("Reading data...");
 
-            return sortedCourses;
-        }
+                string pattern = @"([A-Z][a-zA-Z#\++]*_[A-Z][a-z]{2}_\d{4})\s+([A-Za-z]+\d{2}_\d{2,4})\s([\s0-9]+)";
+                Regex rgx = new Regex(pattern);
+                string[] allInputLines = File.ReadAllLines(path);
 
-        public ISimpleOrderedBag<Student> GetAllStudentsSorted(IComparer<Student> cmp)
-        {
-            SimpleSortedList<Student> sortedStudents = new SimpleSortedList<Student>(cmp);
-            sortedStudents.AddAll(students.Values);
+                for (int line = 0; line < allInputLines.Length; line++)
+                {
+                    if (!string.IsNullOrEmpty(allInputLines[line]) && rgx.IsMatch(allInputLines[line]))
+                    {
+                        Match currentMatch = rgx.Match(allInputLines[line]);
+                        string courseName = currentMatch.Groups[1].Value;
+                        string username = currentMatch.Groups[2].Value;
+                        string scoresStr = currentMatch.Groups[3].Value;
+                        try
+                        {
+                            int[] scores = scoresStr.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                                .Select(int.Parse)
+                                .ToArray();
 
-            return sortedStudents;
+                            if (scores.Any(x => x > 100 || x < 0))
+                            {
+                                OutputWriter.DisplayException(ExceptionMessages.InvalidScore);
+                                continue;
+                            }
+
+                            if (scores.Length > SoftUniCourse.NumberOfTasksOnExam)
+                            {
+                                OutputWriter.DisplayException(ExceptionMessages.InvalidNumberOfScores);
+                                continue;
+                            }
+
+                            if (!this.Students.ContainsKey(username))
+                            {
+                                this.students.Add(username, new SoftUniStudent(username));
+                            }
+
+                            if (!this.Courses.ContainsKey(courseName))
+                            {
+                                this.courses.Add(courseName, new SoftUniCourse(courseName));
+                            }
+
+                            ICourse course = this.Courses[courseName];
+                            IStudent student = this.Students[username];
+
+                            student.EnrollInCourse(course);
+                            student.SetMarkOnCourse(courseName, scores);
+
+                            course.EnrollStudent(student);
+                        }
+                        catch (Exception ex)
+                        {
+                            OutputWriter.DisplayException(ex.Message + $"at line : {line}");
+                        }
+                    }
+                }
+
+                this.isDataInitialized = true;
+                OutputWriter.WriteMessageOnNewLine("Data read!");
+            }
+            else
+            {
+                throw new InvalidPathException();
+            }
         }
     }
 }
-

@@ -1,9 +1,9 @@
 ﻿using System;
-using Executor.IO.Commands;
-using Executor.Contracts;
-using System.Reflection;
 using System.Linq;
+using System.Reflection;
 using Executor.Attributes;
+using Executor.Contracts;
+using Executor.IO.Commands;
 
 namespace Executor.IO
 {
@@ -14,9 +14,7 @@ namespace Executor.IO
         private IDownloadManager downloadManager;
         private IDirectoryManager inputOutputManager;
 
-        public CommandInterpreter(IContentComparer
-            judge, IDatabase repository,
-            IDownloadManager downloadManager, IDirectoryManager inputOutputManager)
+        public CommandInterpreter(IContentComparer judge, IDatabase repository, IDownloadManager downloadManager, IDirectoryManager inputOutputManager)
         {
             this.judge = judge;
             this.repository = repository;
@@ -69,15 +67,13 @@ namespace Executor.IO
                 {
                     if (fieldsOfInterpreter.Any(x => x.FieldType == fieldOfCommand.FieldType))
                     {
-                        fieldOfCommand.SetValue(exe,
-                            fieldsOfInterpreter.First(x => x.FieldType == fieldOfCommand.FieldType)
-                            .GetValue(this));
+                        fieldOfCommand
+                            .SetValue(exe, fieldsOfInterpreter.First(x => x.FieldType == fieldOfCommand.FieldType).GetValue(this));
                     }
                 }
             }
 
             return exe;
         }
-
     }
 }

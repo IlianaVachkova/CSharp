@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Executor.Exceptions;
 using Executor.Contracts;
+using Executor.Exceptions;
 
 namespace Executor.IO
 {
@@ -11,9 +11,9 @@ namespace Executor.IO
         public void TraverseDirectory(int depth)
         {
             OutputWriter.WriteEmptyLine();
-            int initialIdentation = SessionData.currentPath.Split('\\').Length;
+            int initialIdentation = SessionData.CurrentPath.Split('\\').Length;
             Queue<string> subFolders = new Queue<string>();
-            subFolders.Enqueue(SessionData.currentPath);
+            subFolders.Enqueue(SessionData.CurrentPath);
 
             while (subFolders.Count != 0)
             {
@@ -25,9 +25,7 @@ namespace Executor.IO
                     break;
                 }
 
-                OutputWriter.WriteMessageOnNewLine(string.Format("{0}{1}",
-                                                                  new string('-', identation),
-                                                                  currentPath));
+                OutputWriter.WriteMessageOnNewLine(string.Format("{0}{1}", new string('-', identation), currentPath));
                 try
                 {
                     foreach (var file in Directory.GetFiles(currentPath))
@@ -55,7 +53,7 @@ namespace Executor.IO
 
         public void CreateDirectoryInCurrentFolder(string name)
         {
-            string path = SessionData.currentPath + "\\" + name;
+            string path = SessionData.CurrentPath + "\\" + name;
             try
             {
                 Directory.CreateDirectory(path);
@@ -72,10 +70,10 @@ namespace Executor.IO
             {
                 try
                 {
-                    string currentPath = SessionData.currentPath;
+                    string currentPath = SessionData.CurrentPath;
                     int indexOfLastSlash = currentPath.LastIndexOf("\\");
                     string newPath = currentPath.Substring(0, indexOfLastSlash);
-                    SessionData.currentPath = newPath;
+                    SessionData.CurrentPath = newPath;
                 }
                 catch (ArgumentOutOfRangeException)
                 {
@@ -84,7 +82,7 @@ namespace Executor.IO
             }
             else
             {
-                string currentPath = SessionData.currentPath;
+                string currentPath = SessionData.CurrentPath;
                 currentPath += "\\" + relativePath;
                 this.ChangeCurrentDirectoryAbsolute(currentPath);
             }
@@ -97,7 +95,7 @@ namespace Executor.IO
                 throw new InvalidPathException();
             }
 
-            SessionData.currentPath = absolutePath;
+            SessionData.CurrentPath = absolutePath;
         }
     }
 }

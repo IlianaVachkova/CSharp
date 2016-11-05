@@ -1,8 +1,8 @@
-﻿using Executor.Contracts;
-using System;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using System.Collections;
+using Executor.Contracts;
 
 namespace Executor.DataStructures
 {
@@ -44,16 +44,6 @@ namespace Executor.DataStructures
         public int Capacity
         {
             get { return this.innerCollection.Length; }
-        }
-
-        private void InitializeInnerCollection(int capacity)
-        {
-            if (capacity < 0)
-            {
-                throw new ArgumentException("Capacity cannot be negative!");
-            }
-
-            this.innerCollection = new T[capacity];
         }
 
         public bool Remove(T element)
@@ -102,9 +92,9 @@ namespace Executor.DataStructures
                 this.Resize();
             }
 
-            this.innerCollection[size] = element;
+            this.innerCollection[this.size] = element;
             this.size++;
-            Array.Sort(this.innerCollection, 0, size, comparison);
+            Array.Sort(this.innerCollection, 0, this.size, this.comparison);
         }
 
         public void AddAll(ICollection<T> elements)
@@ -121,11 +111,11 @@ namespace Executor.DataStructures
 
             foreach (var element in elements)
             {
-                this.innerCollection[Size] = element;
+                this.innerCollection[this.Size] = element;
                 this.size++;
             }
 
-            Array.Sort(this.innerCollection, 0, size, comparison);
+            Array.Sort(this.innerCollection, 0, this.size, this.comparison);
         }
 
         public string JoinWith(string joiner)
@@ -159,11 +149,21 @@ namespace Executor.DataStructures
             return this.GetEnumerator();
         }
 
+        private void InitializeInnerCollection(int capacity)
+        {
+            if (capacity < 0)
+            {
+                throw new ArgumentException("Capacity cannot be negative!");
+            }
+
+            this.innerCollection = new T[capacity];
+        }
+
         private void Resize()
         {
             T[] newCollection = new T[this.Size * 2];
-            Array.Copy(innerCollection, newCollection, Size);
-            innerCollection = newCollection;
+            Array.Copy(this.innerCollection, newCollection, this.Size);
+            this.innerCollection = newCollection;
         }
 
         private void MultiResize(ICollection<T> elements)
@@ -175,7 +175,7 @@ namespace Executor.DataStructures
             }
 
             T[] newCollection = new T[newSize];
-            Array.Copy(this.innerCollection, newCollection, size);
+            Array.Copy(this.innerCollection, newCollection, this.size);
             this.innerCollection = newCollection;
         }
     }

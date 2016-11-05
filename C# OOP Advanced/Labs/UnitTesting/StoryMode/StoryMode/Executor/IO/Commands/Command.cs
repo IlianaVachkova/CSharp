@@ -1,6 +1,6 @@
 ﻿using System;
-using Executor.Exceptions;
 using Executor.Contracts;
+using Executor.Exceptions;
 
 namespace Executor.IO.Commands
 {
@@ -17,11 +17,14 @@ namespace Executor.IO.Commands
 
         public string Input
         {
-            get { return this.input; }
+            get
+            {
+                return this.input;
+            }
 
             private set
             {
-                if (String.IsNullOrEmpty(value))
+                if (string.IsNullOrEmpty(value))
                 {
                     throw new InvalidStringException(value);
                 }
@@ -32,7 +35,10 @@ namespace Executor.IO.Commands
 
         public string[] Data
         {
-            get { return this.data; }
+            get
+            {
+                return this.data;
+            }
 
             private set
             {

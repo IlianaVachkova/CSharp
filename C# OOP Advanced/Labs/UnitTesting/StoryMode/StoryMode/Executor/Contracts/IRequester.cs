@@ -14,6 +14,6 @@ namespace Executor.Contracts
 
         ISimpleOrderedBag<ICourse> GetAllCoursesSorted(IComparer<ICourse> cmp);
 
-        ISimpleOrderedBag<Student> GetAllStudentsSorted(IComparer<Student> cmp);
+        ISimpleOrderedBag<IStudent> GetAllStudentsSorted(IComparer<IStudent> cmp);
     }
 }

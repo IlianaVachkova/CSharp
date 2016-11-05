@@ -1,15 +1,14 @@
-﻿using Executor.Contracts;
-using Executor.IO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Executor.Contracts;
+using Executor.IO;
 
 namespace Executor.Repository
 {
     public class RepositorySorter : IDataSorter
     {
-        public void PrintSortedStudents(Dictionary<string, double> studentsMarks,
-          string comparison, int studentsToTake)
+        public void PrintSortedStudents(Dictionary<string, double> studentsMarks, string comparison, int studentsToTake)
         {
             comparison = comparison.ToLower();
             if (comparison == "ascending")

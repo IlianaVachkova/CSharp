@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Executor.Contracts
 {
-    public interface Student : IComparable<Student>
+    public interface IStudent : IComparable<IStudent>
     {
         string UserName { get; }
 

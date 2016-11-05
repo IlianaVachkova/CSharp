@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Executor.Exceptions;
 using Executor.Contracts;
+using Executor.Exceptions;
 
 namespace Executor.Models
 {
@@ -15,12 +11,12 @@ namespace Executor.Models
         public const int MaxScoreOnExamTask = 100;
 
         private string name;
-        private Dictionary<string, Student> studentsByName;
+        private Dictionary<string, IStudent> studentsByName;
 
         public SoftUniCourse(string name)
         {
             this.Name = name;
-            this.studentsByName = new Dictionary<string, Student>();
+            this.studentsByName = new Dictionary<string, IStudent>();
         }
 
         public string Name
@@ -41,7 +37,7 @@ namespace Executor.Models
             }
         }
 
-        public IReadOnlyDictionary<string, Student> StudentsByName
+        public IReadOnlyDictionary<string, IStudent> StudentsByName
         {
             get
             {
@@ -49,7 +45,7 @@ namespace Executor.Models
             }
         }
 
-        public void EnrollStudent(Student student)
+        public void EnrollStudent(IStudent student)
         {
             if (this.studentsByName.ContainsKey(student.UserName))
             {
@@ -61,7 +57,7 @@ namespace Executor.Models
 
         public int CompareTo(ICourse other)
         {
-            return String.Compare(this.Name, other.Name, StringComparison.Ordinal);
+            return string.Compare(this.Name, other.Name, StringComparison.Ordinal);
         }
 
         public override string ToString()

@@ -1,8 +1,8 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using Executor.Contracts;
 using Executor.DataStructures;
-using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BashSoftTesting
 {
@@ -163,7 +163,7 @@ namespace BashSoftTesting
             this.names.Remove("Ivan");
 
             bool isRemoved = true;
-            foreach (var name in names)
+            foreach (var name in this.names)
             {
                 if (name.Equals("Ivan"))
                 {

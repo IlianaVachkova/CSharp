@@ -7,8 +7,8 @@ namespace Executor.Contracts
     {
         string Name { get; }
 
-        IReadOnlyDictionary<String, Student> StudentsByName { get; }
+        IReadOnlyDictionary<string, IStudent> StudentsByName { get; }
 
-        void EnrollStudent(Student student);
+        void EnrollStudent(IStudent student);
     }
 }

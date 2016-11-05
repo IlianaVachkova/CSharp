@@ -1,5 +1,5 @@
-﻿using Executor.Contracts;
-using Executor.Attributes;
+﻿using Executor.Attributes;
+using Executor.Contracts;
 
 namespace Executor.IO.Commands
 {
@@ -18,7 +18,6 @@ namespace Executor.IO.Commands
         {
             if (this.Data.Length != 5)
             {
-
             }
 
             string courseName = this.Data[1];

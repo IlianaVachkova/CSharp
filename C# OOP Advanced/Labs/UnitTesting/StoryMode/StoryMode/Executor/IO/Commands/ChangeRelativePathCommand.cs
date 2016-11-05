@@ -1,5 +1,5 @@
-﻿using Executor.Exceptions;
-using Executor.Attributes;
+﻿using Executor.Attributes;
+using Executor.Exceptions;
 
 namespace Executor.IO.Commands
 {

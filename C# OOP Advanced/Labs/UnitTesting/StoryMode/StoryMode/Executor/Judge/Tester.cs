@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
+using Executor.Contracts;
 using Executor.Exceptions;
 using Executor.IO;
-using Executor.Contracts;
 
 namespace Executor.Judge
 {
@@ -54,8 +54,7 @@ namespace Executor.Judge
                 string expectedLine = expectedOutputLines[index];
                 if (!actualLine.Equals(expectedLine))
                 {
-                    output = string.Format("Mismatch at line {0} -- expected: \"{1}\", actual: \"{2}\"",
-                        index, expectedLine, actualLine);
+                    output = string.Format("Mismatch at line {0} -- expected: \"{1}\", actual: \"{2}\"", index, expectedLine, actualLine);
                     output += Environment.NewLine;
                     hasMismatch = true;
                 }

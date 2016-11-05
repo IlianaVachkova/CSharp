@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
-using Executor.Exceptions;
 using Executor.Attributes;
+using Executor.Exceptions;
 
 namespace Executor.IO.Commands
 {
@@ -20,7 +20,7 @@ namespace Executor.IO.Commands
             }
 
             string fileName = this.Data[1];
-            Process.Start(SessionData.currentPath + "\\" + fileName);
+            Process.Start(SessionData.CurrentPath + "\\" + fileName);
         }
     }
 }
